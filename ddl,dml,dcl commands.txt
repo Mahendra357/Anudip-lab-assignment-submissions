@@ -1,0 +1,295 @@
+-- SELECT  -> Used to retrieve data from a table.
+-- INSERT  -> Used to add new records into a table.
+-- ALTER   -> Used to modify the structure of a table.
+-- DELETE  -> Used to remove specific rows from a table.
+-- DROP    -> Used to completely remove a table/database.
+-- WHERE   -> Used to filter records based on a condition.
+-- TRUNCATE -> Used to remove all rows from a table quickly.
+-- VALUES  -> Used to specify data to be inserted into a table.
+
+
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ecom               |
+| grp                |
+| hm                 |
+| information_schema |
+| mysql              |
+| newdb              |
+| performance_schema |
+| sampledb           |
+| student_feedback   |
+| sys                |
++--------------------+
+10 rows in set (0.03 sec)
+
+mysql> show tables;
+ERROR 1046 (3D000): No database selected
+mysql> USE ECOM
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_ecom |
++----------------+
+| customer       |
+| orders         |
+| product        |
++----------------+
+3 rows in set (0.01 sec)
+
+mysql> desc customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cust_id  | varchar(25) | NO   | PRI | NULL    |       |
+| name     | varchar(20) | NO   |     | NULL    |       |
+| city     | varchar(20) | YES  |     | NULL    |       |
+| email    | varchar(25) | NO   |     | NULL    |       |
+| address  | varchar(50) | NO   |     | NULL    |       |
+| phone_no | varchar(10) | YES  |     | NULL    |       |
+| pincode  | int         | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.02 sec)
+
+mysql> desc orders;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| order_id     | int         | NO   | PRI | NULL    | auto_increment |
+| cust_id      | varchar(25) | YES  | MUL | NULL    |                |
+| product_id   | varchar(20) | NO   | MUL | NULL    |                |
+| quantity     | int         | NO   |     | NULL    |                |
+| total_price  | double      | NO   |     | NULL    |                |
+| payment_mode | varchar(20) | YES  |     | NULL    |                |
+| order_date   | date        | NO   |     | NULL    |                |
+| order_status | varchar(20) | YES  |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+8 rows in set (0.01 sec)
+
+mysql> desc product;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| product_id     | varchar(20) | NO   | PRI | NULL    |       |
+| product_name   | varchar(20) | YES  |     | NULL    |       |
+| category       | varchar(20) | YES  |     | NULL    |       |
+| sub_category   | varchar(20) | YES  |     | NULL    |       |
+| original_price | double      | YES  |     | NULL    |       |
+| selling_price  | double      | YES  |     | NULL    |       |
+| stock          | int         | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cust_id  | varchar(25) | NO   | PRI | NULL    |       |
+| name     | varchar(20) | NO   |     | NULL    |       |
+| city     | varchar(20) | YES  |     | NULL    |       |
+| email    | varchar(25) | NO   |     | NULL    |       |
+| address  | varchar(50) | NO   |     | NULL    |       |
+| phone_no | varchar(10) | YES  |     | NULL    |       |
+| pincode  | int         | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> insert into customer(cust_id,name,city,email,address,phone_no,pincode)values('c1','Moin','Ambernath','moin@gmail.com','Kohinoor castle','9000000001',421503);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+------+-----------+----------------+-----------------+------------+---------+
+| cust_id | name | city      | email          | address         | phone_no   | pincode |
++---------+------+-----------+----------------+-----------------+------------+---------+
+| c1      | Moin | Ambernath | moin@gmail.com | Kohinoor castle | 9000000001 |  421503 |
++---------+------+-----------+----------------+-----------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> alter table customer modify column phone_no varchar(25);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customers;
+ERROR 1146 (42S02): Table 'ecom.customers' doesn't exist
+mysql> desc customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cust_id  | varchar(25) | NO   | PRI | NULL    |       |
+| name     | varchar(20) | NO   |     | NULL    |       |
+| city     | varchar(20) | YES  |     | NULL    |       |
+| email    | varchar(25) | NO   |     | NULL    |       |
+| address  | varchar(50) | NO   |     | NULL    |       |
+| phone_no | varchar(25) | YES  |     | NULL    |       |
+| pincode  | int         | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select cust_id,name from customer;
++---------+------+
+| cust_id | name |
++---------+------+
+| c1      | Moin |
++---------+------+
+1 row in set (0.00 sec)
+
+mysql> insert into customer(cust_id,name,city,email,address,phone_no,pincode)values('c2','abc','Mumbra','abc@gmail.com','Amrut Nagar','9000000002',400612);,4
+Query OK, 1 row affected (0.01 sec)
+mysql> select cust_id,city from customer;
++---------+-----------+
+| cust_id | city      |
++---------+-----------+
+| c1      | Ambernath |
+| c2      | Mumbra    |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into customer(cust_id,name,city,email,address,phone_no,pincode)values('c3','xyz','Thane','xyz@gmail.com','station road','9000000003',400612);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values('c4','pqr','Thane','pqr@gmail.com','station road','9000000004',400612);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> alter table customer add column bill double not null;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table customer add column state varchar(25) not null,add column country varchar(20) not null;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table customer rename column name to first_name;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| cust_id    | varchar(25) | NO   | PRI | NULL    |       |
+| first_name | varchar(20) | NO   |     | NULL    |       |
+| city       | varchar(20) | YES  |     | NULL    |       |
+| email      | varchar(25) | NO   |     | NULL    |       |
+| address    | varchar(50) | NO   |     | NULL    |       |
+| phone_no   | varchar(25) | YES  |     | NULL    |       |
+| pincode    | int         | NO   |     | NULL    |       |
+| bill       | double      | NO   |     | NULL    |       |
+| state      | varchar(25) | NO   |     | NULL    |       |
+| country    | varchar(20) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+
+mysql> desc orders;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| order_id     | int         | NO   | PRI | NULL    | auto_increment |
+| cust_id      | varchar(25) | YES  | MUL | NULL    |                |
+| product_id   | varchar(20) | NO   | MUL | NULL    |                |
+| quantity     | int         | NO   |     | NULL    |                |
+| total_price  | double      | NO   |     | NULL    |                |
+| payment_mode | varchar(20) | YES  |     | NULL    |                |
+| order_date   | date        | NO   |     | NULL    |                |
+| order_status | varchar(20) | YES  |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> alter table orders drop primary key;
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> create table demo(demo_id varchar(20) not null primary key,name varchar(20));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc demo;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| demo_id | varchar(20) | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> alter table demo drop primary key;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc demo;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| demo_id | varchar(20) | NO   |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+mysql> alter table demo add primary key (demo_id);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc demo;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| demo_id | varchar(20) | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> create table demo1( demo_id varchar(20),name1 varchar(20),foreign key (demo_id) references demo(demo_id));
+Query OK, 0 rows affected (0.04 sec)
+
+
+mysql> delete  from customer where cust_id = 'c1';
+Query OK, 1 row affected (0.05 sec)
+
+mysql> SELECT * FROM customer;
++---------+------------+--------+---------------+--------------+------------+---------+------+-------+---------+
+| cust_id | first_name | city   | email         | address      | phone_no   | pincode | bill | state | country |
++---------+------------+--------+---------------+--------------+------------+---------+------+-------+---------+
+| c2      | abc        | Mumbra | abc@gmail.com | Amrut Nagar  | 9000000002 |  400612 |    0 |       |         |
+| c3      | xyz        | Thane  | xyz@gmail.com | station road | 9000000003 |  400612 |    0 |       |         |
+| c4      | pqr        | Thane  | pqr@gmail.com | station road | 9000000004 |  400612 |    0 |       |         |
++---------+------------+--------+---------------+--------------+------------+---------+------+-------+---------+
+3 rows in set (0.04 sec)
+
+
+mysql> insert into demo1(demo_id,name) values('d1','abc');
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> insert into demo(demo_id,name) values('d1','abc');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from demo;
++---------+------+
+| demo_id | name |
++---------+------+
+| d1      | abc  |
++---------+------+
+1 row in set (0.00 sec)
+
+mysql> truncate table demo;
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> select * from demo;
+Empty set (0.00 sec)
+
+mysql> desc demo;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| demo_id | varchar(20) | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> drop table demo1;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc demo1;
+ERROR 1146 (42S02): Table 'ecom.demo1' doesn't exist
+mysql>
+
