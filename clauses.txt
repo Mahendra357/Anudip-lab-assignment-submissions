@@ -1,0 +1,475 @@
+mysql> create database customer;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use customer;
+Database changed
+mysql> create table customer(cust_id varchar(10) not null primary key,name varchar(10) not null, city varchar(20) not null, email varchar(25) not null, address varchar(50) not null,phone_no varchar(10) not null,pincode int not null);
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> desc customer;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cust_id  | varchar(10) | NO   | PRI | NULL    |       |
+| name     | varchar(10) | NO   |     | NULL    |       |
+| city     | varchar(20) | NO   |     | NULL    |       |
+| email    | varchar(25) | NO   |     | NULL    |       |
+| address  | varchar(50) | NO   |     | NULL    |       |
+| phone_no | varchar(10) | NO   |     | NULL    |       |
+| pincode  | int         | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> insert into customer values('c101','abc','kalyan','abc@gmail.com','hanuman nagar','9898765432',421306);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer values('c102','def','thane','def@gmail.com','bhagwan nagar','9865743210',428709);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer values('c103','ghi','mumbai','ghi@gmail.com','farida gaon','9887654319',454329);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into customer values('c104','jkl','ulhasnagar','jkl@gmail.com','katemanivili','965432190',423187);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+------+------------+---------------+---------------+------------+---------+
+| cust_id | name | city       | email         | address       | phone_no   | pincode |
++---------+------+------------+---------------+---------------+------------+---------+
+| c101    | abc  | kalyan     | abc@gmail.com | hanuman nagar | 9898765432 |  421306 |
+| c102    | def  | thane      | def@gmail.com | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi  | mumbai     | ghi@gmail.com | farida gaon   | 9887654319 |  454329 |
+| c104    | jkl  | ulhasnagar | jkl@gmail.com | katemanivili  | 965432190  |  423187 |
++---------+------+------------+---------------+---------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> create table customer(order_id varchar(10) not null primary key,cust_id varchar(10) not null,product_id varchar(20) not null,quantity int not null,total_price double not null,selling_price double not null,payment_mode varchar(10) not null,order_date date not null,order_status 
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from customer;
++---------+------+------------+---------------+---------------+------------+---------+
+| cust_id | name | city       | email         | address       | phone_no   | pincode |
++---------+------+------------+---------------+---------------+------------+---------+
+| c101    | abc  | kalyan     | abc@gmail.com | hanuman nagar | 9898765432 |  421306 |
+| c102    | def  | thane      | def@gmail.com | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi  | mumbai     | ghi@gmail.com | farida gaon   | 9887654319 |  454329 |
+| c104    | jkl  | ulhasnagar | jkl@gmail.com | katemanivili  | 965432190  |  423187 |
++---------+------+------------+---------------+---------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> update customer set phone_no='9876542109' where cust_id='c104';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++---------+------+------------+---------------+---------------+------------+---------+
+| cust_id | name | city       | email         | address       | phone_no   | pincode |
++---------+------+------------+---------------+---------------+------------+---------+
+| c101    | abc  | kalyan     | abc@gmail.com | hanuman nagar | 9898765432 |  421306 |
+| c102    | def  | thane      | def@gmail.com | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi  | mumbai     | ghi@gmail.com | farida gaon   | 9887654319 |  454329 |
+| c104    | jkl  | ulhasnagar | jkl@gmail.com | katemanivili  | 9876542109 |  423187 |
++---------+------+------------+---------------+---------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> desc orders;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| order_id      | varchar(10) | NO   | PRI | NULL    |       |
+| cust_id       | varchar(10) | NO   |     | NULL    |       |
+| product_id    | varchar(20) | NO   |     | NULL    |       |
+| quantity      | int         | NO   |     | NULL    |       |
+| total_price   | double      | NO   |     | NULL    |       |
+| selling_price | double      | NO   |     | NULL    |       |
+| payment_mode  | varchar(10) | NO   |     | NULL    |       |
+| order_date    | date        | NO   |     | NULL    |       |
+| order_status  | varchar(20) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> insert into orders values('101','c101','3456','5','8900.89','7800.45',
+    -> ;
+mysql> insert into orders values('101','c101','3456','5','8900.89','7800.45','G-pay',01-05-2026,'completed');
+ERROR 1292 (22007): Incorrect date value: '-2030' for column 'order_date' at row 1
+mysql> insert into orders values('101','c101','3456','5','8900.89','7800.45','G-pay','2026-05-01','completed');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from orders;
++----------+---------+------------+----------+-------------+---------------+--------------+------------+--------------+
+| order_id | cust_id | product_id | quantity | total_price | selling_price | payment_mode | order_date | order_status |
++----------+---------+------------+----------+-------------+---------------+--------------+------------+--------------+
+| 101      | c101    | 3456       |        5 |     8900.89 |       7800.45 | G-pay        | 2026-05-01 | completed    |
++----------+---------+------------+----------+-------------+---------------+--------------+------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer;
++---------+------+------------+---------------+---------------+------------+---------+
+| cust_id | name | city       | email         | address       | phone_no   | pincode |
++---------+------+------------+---------------+---------------+------------+---------+
+| c101    | abc  | kalyan     | abc@gmail.com | hanuman nagar | 9898765432 |  421306 |
+| c102    | def  | thane      | def@gmail.com | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi  | mumbai     | ghi@gmail.com | farida gaon   | 9887654319 |  454329 |
+| c104    | jkl  | ulhasnagar | jkl@gmail.com | katemanivili  | 9876542109 |  423187 |
++---------+------+------------+---------------+---------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer where name like '%kl';
++---------+------+------------+---------------+--------------+------------+---------+
+| cust_id | name | city       | email         | address      | phone_no   | pincode |
++---------+------+------------+---------------+--------------+------------+---------+
+| c104    | jkl  | ulhasnagar | jkl@gmail.com | katemanivili | 9876542109 |  423187 |
++---------+------+------------+---------------+--------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer where name like '%k%';
++---------+------+------------+---------------+--------------+------------+---------+
+| cust_id | name | city       | email         | address      | phone_no   | pincode |
++---------+------+------------+---------------+--------------+------------+---------+
+| c104    | jkl  | ulhasnagar | jkl@gmail.com | katemanivili | 9876542109 |  423187 |
++---------+------+------------+---------------+--------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer where name like '%h%';
++---------+------+--------+---------------+-------------+------------+---------+
+| cust_id | name | city   | email         | address     | phone_no   | pincode |
++---------+------+--------+---------------+-------------+------------+---------+
+| c103    | ghi  | mumbai | ghi@gmail.com | farida gaon | 9887654319 |  454329 |
++---------+------+--------+---------------+-------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer where name like 'a__';
++---------+------+--------+---------------+---------------+------------+---------+
+| cust_id | name | city   | email         | address       | phone_no   | pincode |
++---------+------+--------+---------------+---------------+------------+---------+
+| c101    | abc  | kalyan | abc@gmail.com | hanuman nagar | 9898765432 |  421306 |
++---------+------+--------+---------------+---------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer where name like 'a_';
+Empty set (0.00 sec)
+
+mysql> insert into customer values('c105','mahi','krishna nagar','mahi@gmail.com','chinchpada','8923745612',487354);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer values('c106','daksh','khadakpada','daksh@gmail.com','wayle nagar','8712345689',421308);
+Query OK, 1 row affected (0.01 sec)
+
+ ysql> insert into customer values('c107','archita','khadakpada','archita@gmail.com','wayle nagar','8745362190',410235);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+---------+---------------+-------------------+---------------+------------+---------+
+| cust_id | name    | city          | email             | address       | phone_no   | pincode |
++---------+---------+---------------+-------------------+---------------+------------+---------+
+| c101    | abc     | kalyan        | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |
+| c102    | def     | thane         | def@gmail.com     | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi     | mumbai        | ghi@gmail.com     | farida gaon   | 9887654319 |  454329 |
+| c104    | jkl     | ulhasnagar    | jkl@gmail.com     | katemanivili  | 9876542109 |  423187 |
+| c105    | mahi    | krishna nagar | mahi@gmail.com    | chinchpada    | 8923745612 |  487354 |
+| c106    | daksh   | khadakpada    | daksh@gmail.com   | wayle nagar   | 8712345689 |  421308 |
+| c107    | archita | khadakpada    | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |
++---------+---------+---------------+-------------------+---------------+------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customer limit 3;
++---------+------+--------+---------------+---------------+------------+---------+
+| cust_id | name | city   | email         | address       | phone_no   | pincode |
++---------+------+--------+---------------+---------------+------------+---------+
+| c101    | abc  | kalyan | abc@gmail.com | hanuman nagar | 9898765432 |  421306 |
+| c102    | def  | thane  | def@gmail.com | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi  | mumbai | ghi@gmail.com | farida gaon   | 9887654319 |  454329 |
++---------+------+--------+---------------+---------------+------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer top 3;
+
+mysql> select * from customer Top ;
++---------+---------+---------------+-------------------+---------------+------------+---------+
+| cust_id | name    | city          | email             | address       | phone_no   | pincode |
++---------+---------+---------------+-------------------+---------------+------------+---------+
+| c101    | abc     | kalyan        | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |
+| c102    | def     | thane         | def@gmail.com     | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi     | mumbai        | ghi@gmail.com     | farida gaon   | 9887654319 |  454329 |
+| c104    | jkl     | ulhasnagar    | jkl@gmail.com     | katemanivili  | 9876542109 |  423187 |
+| c105    | mahi    | krishna nagar | mahi@gmail.com    | chinchpada    | 8923745612 |  487354 |
+| c106    | daksh   | khadakpada    | daksh@gmail.com   | wayle nagar   | 8712345689 |  421308 |
+| c107    | archita | khadakpada    | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |
++---------+---------+---------------+-------------------+---------------+------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select distinct city from customer;
++---------------+
+| city          |
++---------------+
+| kalyan        |
+| thane         |
+| mumbai        |
+| ulhasnagar    |
+| krishna nagar |
+| khadakpada    |
++---------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from customer;
++---------+---------+---------------+-------------------+---------------+------------+---------+
+| cust_id | name    | city          | email             | address       | phone_no   | pincode |
++---------+---------+---------------+-------------------+---------------+------------+---------+
+| c101    | abc     | kalyan        | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |
+| c102    | def     | thane         | def@gmail.com     | bhagwan nagar | 9865743210 |  428709 |
+| c103    | ghi     | mumbai        | ghi@gmail.com     | farida gaon   | 9887654319 |  454329 |
+| c104    | jkl     | ulhasnagar    | jkl@gmail.com     | katemanivili  | 9876542109 |  423187 |
+| c105    | mahi    | krishna nagar | mahi@gmail.com    | chinchpada    | 8923745612 |  487354 |
+| c106    | daksh   | khadakpada    | daksh@gmail.com   | wayle nagar   | 8712345689 |  421308 |
+| c107    | archita | khadakpada    | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |
++---------+---------+---------------+-------------------+---------------+------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> alter table customer add column bill_no int not null;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table customer add column state int not null;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table customer add column country varchar(10 not null;mysql> alter table customer add column country varchar(10) not null;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table customer modify column state varchar(10) not null;
+Query OK, 7 rows affected (0.11 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+-------+---------+
+| cust_id | name    | city          | email             | address       | phone_no   | pincode | bill_no | state | country |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+-------+---------+
+| c101    | abc     | kalyan        | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |       0 | 0     |         |
+| c102    | def     | thane         | def@gmail.com     | bhagwan nagar | 9865743210 |  428709 |       0 | 0     |         |
+| c103    | ghi     | mumbai        | ghi@gmail.com     | farida gaon   | 9887654319 |  454329 |       0 | 0     |         |
+| c104    | jkl     | ulhasnagar    | jkl@gmail.com     | katemanivili  | 9876542109 |  423187 |       0 | 0     |         |
+| c105    | mahi    | krishna nagar | mahi@gmail.com    | chinchpada    | 8923745612 |  487354 |       0 | 0     |         |
+| c106    | daksh   | khadakpada    | daksh@gmail.com   | wayle nagar   | 8712345689 |  421308 |       0 | 0     |         |
+| c107    | archita | khadakpada    | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |       0 | 0     |         |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+-------+---------+
+7 rows in set (0.00 sec)
+
+mysql> update customer set bill_no = 20 where cust_id = 'c101';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set bill_no = 30 where cust_id = 'c102';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set bill_no = 4 where cust_id = 'c103';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set bill_no = 3 where cust_id = 'c104';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set bill_no = 7 where cust_id = 'c105';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set bill_no = 4 where cust_id = 'c106';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set bill_no = 2 where cust_id = 'c107';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='chennai' where cust_id = 'c101';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='kerala' where cust_id = 'c102';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='tamil' where cust_id = 'c103';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='andra p' where cust_id = 'c104';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='gujarat' where cust_id = 'c105';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='chennai' where cust_id = 'c106';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='bengal' where cust_id = 'c106';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set state ='bengal' where cust_id = 'c107';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set country ='india' where cust_id = 'c101';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set country ='india' where cust_id = 'c102';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set country ='india' where cust_id = 'c103';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set country ='india' where cust_id = 'c104';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set country ='india' where cust_id = 'c105';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set country ='india' where cust_id = 'c106';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set country ='india' where cust_id = 'c107';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| cust_id | name    | city          | email             | address       | phone_no   | pincode | bill_no | state   | country |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| c101    | abc     | kalyan        | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |      20 | chennai | india   |
+| c102    | def     | thane         | def@gmail.com     | bhagwan nagar | 9865743210 |  428709 |      30 | kerala  | india   |
+| c103    | ghi     | mumbai        | ghi@gmail.com     | farida gaon   | 9887654319 |  454329 |       4 | tamil   | india   |
+| c104    | jkl     | ulhasnagar    | jkl@gmail.com     | katemanivili  | 9876542109 |  423187 |       3 | andra p | india   |
+| c105    | mahi    | krishna nagar | mahi@gmail.com    | chinchpada    | 8923745612 |  487354 |       7 | gujarat | india   |
+| c106    | daksh   | khadakpada    | daksh@gmail.com   | wayle nagar   | 8712345689 |  421308 |       4 | bengal  | india   |
+| c107    | archita | khadakpada    | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |       2 | bengal  | india   |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customer where bill_no <= 4;
++---------+---------+------------+-------------------+--------------+------------+---------+---------+---------+---------+
+| cust_id | name    | city       | email             | address      | phone_no   | pincode | bill_no | state   | country |
++---------+---------+------------+-------------------+--------------+------------+---------+---------+---------+---------+
+| c103    | ghi     | mumbai     | ghi@gmail.com     | farida gaon  | 9887654319 |  454329 |       4 | tamil   | india   |
+| c104    | jkl     | ulhasnagar | jkl@gmail.com     | katemanivili | 9876542109 |  423187 |       3 | andra p | india   |
+| c106    | daksh   | khadakpada | daksh@gmail.com   | wayle nagar  | 8712345689 |  421308 |       4 | bengal  | india   |
+| c107    | archita | khadakpada | archita@gmail.com | wayle nagar  | 8745362190 |  410235 |       2 | bengal  | india   |
++---------+---------+------------+-------------------+--------------+------------+---------+---------+---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer where bill_no >= 4;
++---------+-------+---------------+-----------------+---------------+------------+---------+---------+---------+---------+
+| cust_id | name  | city          | email           | address       | phone_no   | pincode | bill_no | state   | country |
++---------+-------+---------------+-----------------+---------------+------------+---------+---------+---------+---------+
+| c101    | abc   | kalyan        | abc@gmail.com   | hanuman nagar | 9898765432 |  421306 |      20 | chennai | india   |
+| c102    | def   | thane         | def@gmail.com   | bhagwan nagar | 9865743210 |  428709 |      30 | kerala  | india   |
+| c103    | ghi   | mumbai        | ghi@gmail.com   | farida gaon   | 9887654319 |  454329 |       4 | tamil   | india   |
+| c105    | mahi  | krishna nagar | mahi@gmail.com  | chinchpada    | 8923745612 |  487354 |       7 | gujarat | india   |
+| c106    | daksh | khadakpada    | daksh@gmail.com | wayle nagar   | 8712345689 |  421308 |       4 | bengal  | india   |
++---------+-------+---------------+-----------------+---------------+------------+---------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer where bill_no > 4;
++---------+------+---------------+----------------+---------------+------------+---------+---------+---------+---------+
+| cust_id | name | city          | email          | address       | phone_no   | pincode | bill_no | state   | country |
++---------+------+---------------+----------------+---------------+------------+---------+---------+---------+---------+
+| c101    | abc  | kalyan        | abc@gmail.com  | hanuman nagar | 9898765432 |  421306 |      20 | chennai | india   |
+| c102    | def  | thane         | def@gmail.com  | bhagwan nagar | 9865743210 |  428709 |      30 | kerala  | india   |
+| c105    | mahi | krishna nagar | mahi@gmail.com | chinchpada    | 8923745612 |  487354 |       7 | gujarat | india   |
++---------+------+---------------+----------------+---------------+------------+---------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer where bill_no < 4;
++---------+---------+------------+-------------------+--------------+------------+---------+---------+---------+---------+
+| cust_id | name    | city       | email             | address      | phone_no   | pincode | bill_no | state   | country |
++---------+---------+------------+-------------------+--------------+------------+---------+---------+---------+---------+
+| c104    | jkl     | ulhasnagar | jkl@gmail.com     | katemanivili | 9876542109 |  423187 |       3 | andra p | india   |
+| c107    | archita | khadakpada | archita@gmail.com | wayle nagar  | 8745362190 |  410235 |       2 | bengal  | india   |
++---------+---------+------------+-------------------+--------------+------------+---------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customer where name = 'Mahi' OR bill_no = 4;
++---------+-------+---------------+-----------------+-------------+------------+---------+---------+---------+---------+
+| cust_id | name  | city          | email           | address     | phone_no   | pincode | bill_no | state   | country |
++---------+-------+---------------+-----------------+-------------+------------+---------+---------+---------+---------+
+| c103    | ghi   | mumbai        | ghi@gmail.com   | farida gaon | 9887654319 |  454329 |       4 | tamil   | india   |
+| c105    | mahi  | krishna nagar | mahi@gmail.com  | chinchpada  | 8923745612 |  487354 |       7 | gujarat | india   |
+| c106    | daksh | khadakpada    | daksh@gmail.com | wayle nagar | 8712345689 |  421308 |       4 | bengal  | india   |
++---------+-------+---------------+-----------------+-------------+------------+---------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer where name = 'Mahi' AND bill_no = 4;
+Empty set (0.00 sec)
+
+mysql> select * from customer where cust_id BETWEEN 'c102' and 'c106';
++---------+-------+---------------+-----------------+---------------+------------+---------+---------+---------+---------+
+| cust_id | name  | city          | email           | address       | phone_no   | pincode | bill_no | state   | country |
++---------+-------+---------------+-----------------+---------------+------------+---------+---------+---------+---------+
+| c102    | def   | thane         | def@gmail.com   | bhagwan nagar | 9865743210 |  428709 |      30 | kerala  | india   |
+| c103    | ghi   | mumbai        | ghi@gmail.com   | farida gaon   | 9887654319 |  454329 |       4 | tamil   | india   |
+| c104    | jkl   | ulhasnagar    | jkl@gmail.com   | katemanivili  | 9876542109 |  423187 |       3 | andra p | india   |
+| c105    | mahi  | krishna nagar | mahi@gmail.com  | chinchpada    | 8923745612 |  487354 |       7 | gujarat | india   |
+| c106    | daksh | khadakpada    | daksh@gmail.com | wayle nagar   | 8712345689 |  421308 |       4 | bengal  | india   |
++---------+-------+---------------+-----------------+---------------+------------+---------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer where cust_id NOT BETWEEN 'c102' and 'c106';
++---------+---------+------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| cust_id | name    | city       | email             | address       | phone_no   | pincode | bill_no | state   | country |
++---------+---------+------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| c101    | abc     | kalyan     | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |      20 | chennai | india   |
+| c107    | archita | khadakpada | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |       2 | bengal  | india   |
++---------+---------+------------+-------------------+---------------+------------+---------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customer where cust_id IN ('c102''c106');
+Empty set (0.00 sec)
+
+mysql> select * from customer where cust_id IN ('c102','c106');
++---------+-------+------------+-----------------+---------------+------------+---------+---------+--------+---------+
+| cust_id | name  | city       | email           | address       | phone_no   | pincode | bill_no | state  | country |
++---------+-------+------------+-----------------+---------------+------------+---------+---------+--------+---------+
+| c102    | def   | thane      | def@gmail.com   | bhagwan nagar | 9865743210 |  428709 |      30 | kerala | india   |
+| c106    | daksh | khadakpada | daksh@gmail.com | wayle nagar   | 8712345689 |  421308 |       4 | bengal | india   |
++---------+-------+------------+-----------------+---------------+------------+---------+---------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customer where cust_id NOT IN ('c102','c106');
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| cust_id | name    | city          | email             | address       | phone_no   | pincode | bill_no | state   | country |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| c101    | abc     | kalyan        | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |      20 | chennai | india   |
+| c103    | ghi     | mumbai        | ghi@gmail.com     | farida gaon   | 9887654319 |  454329 |       4 | tamil   | india   |
+| c104    | jkl     | ulhasnagar    | jkl@gmail.com     | katemanivili  | 9876542109 |  423187 |       3 | andra p | india   |
+| c105    | mahi    | krishna nagar | mahi@gmail.com    | chinchpada    | 8923745612 |  487354 |       7 | gujarat | india   |
+| c107    | archita | khadakpada    | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |       2 | bengal  | india   |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer where email is null;
+Empty set (0.00 sec)
+
+mysql> select * from customer where email is not null;
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| cust_id | name    | city          | email             | address       | phone_no   | pincode | bill_no | state   | country |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+| c101    | abc     | kalyan        | abc@gmail.com     | hanuman nagar | 9898765432 |  421306 |      20 | chennai | india   |
+| c102    | def     | thane         | def@gmail.com     | bhagwan nagar | 9865743210 |  428709 |      30 | kerala  | india   |
+| c103    | ghi     | mumbai        | ghi@gmail.com     | farida gaon   | 9887654319 |  454329 |       4 | tamil   | india   |
+| c104    | jkl     | ulhasnagar    | jkl@gmail.com     | katemanivili  | 9876542109 |  423187 |       3 | andra p | india   |
+| c105    | mahi    | krishna nagar | mahi@gmail.com    | chinchpada    | 8923745612 |  487354 |       7 | gujarat | india   |
+| c106    | daksh   | khadakpada    | daksh@gmail.com   | wayle nagar   | 8712345689 |  421308 |       4 | bengal  | india   |
+| c107    | archita | khadakpada    | archita@gmail.com | wayle nagar   | 8745362190 |  410235 |       2 | bengal  | india   |
++---------+---------+---------------+-------------------+---------------+------------+---------+---------+---------+---------+
+7 rows in set (0.00 sec)
